@@ -2,10 +2,10 @@ const express = require('express');
 const Log = require('../models/log');
 
 const router = express.Router();
-// POST /api/logs
-// Endpoint to save a new log entry sent from other services
-// Input: JSON object with service, method, url, statusCode, and message
-// Output: JSON of the saved log document with status 201
+/* POST /logs/api
+ * Endpoint to save a new log entry sent from other services
+ * Input: JSON object with service, method, url, statusCode, and message
+ * Output: JSON of the saved log document with status 201 */
 router.post('/logs', async (req, res) => {
     try {
         const doc = req.body;
@@ -24,8 +24,8 @@ router.post('/logs', async (req, res) => {
     }
 });
 
-// GET /api/logs
-// Endpoint for the admin to retrieve all system logs
+/* GET /api/logs
+ * Endpoint for the admin to retrieve all system logs */
 router.get('/logs', async (req, res) => {
     try {
         const logs = await Log.find().sort({ timestamp: -1 }).lean();

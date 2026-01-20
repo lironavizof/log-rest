@@ -1,9 +1,12 @@
+/* This file contains Jest/Supertest unit tests for the Logging Microservice.
+* We use Mocking to simulate the Database and Middleware behavior,
+* ensuring we test only the route logic in isolation. */
 const request = require('supertest');
 
-//  Mock logger middleware so it won't send logs to DB/service during tests
+/*  Mock logger middleware so it won't send logs to DB/service during tests */
 jest.mock('../middleware/logger', () => (req, res, next) => next());
 
-//  Mock Log model (no real MongoDB)
+/*  Mock Log model (no real MongoDB) */
 jest.mock('../models/log', () => ({
     create: jest.fn(),
     find: jest.fn(),
@@ -103,9 +106,10 @@ describe('Log service', () => {
     });
 
     describe('404 handler', () => {
+        /* Test Case: Ensuring the system handles non-existent routes correctly */
         test('unknown route returns 404 JSON', async () => {
             const res = await request(app).get('/no-such-route');
-
+            /* // Expecting standard 404 response for undefined endpoints */
             expect(res.statusCode).toBe(404);
             expect(res.body).toEqual({ id: 404, message: 'Route not found' });
         });
